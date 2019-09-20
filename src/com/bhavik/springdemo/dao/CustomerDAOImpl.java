@@ -8,7 +8,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.bhavik.springdemo.entity.Customer;
 
@@ -35,11 +34,36 @@ public class CustomerDAOImpl implements CustomerDAO {
 	}
 
 	@Override
+	
 	public void saveCustomer(Customer theCustomer) {
 		
 		Session currentSession = sessionFactory.getCurrentSession();
 		
-		currentSession.save(theCustomer);
+		
+		/*
+		 * saveOrUpdate method Hibernate logic
+		 * 		if(primaryKey value is default) //in our case it is 0.
+		 * 			then perform save operation
+		 * 		else
+		 * 			perform update operation.
+		 * */
+		currentSession.saveOrUpdate(theCustomer);
+		
+	}
+
+	@Override
+	public Customer getCustomer(int theId) {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		/*
+		 * retrieve/read from database using the primary key
+		 */
+		
+		Customer theCustomer = currentSession.get(Customer.class,theId);
+		
+		return theCustomer;
+		
 		
 	}
 
