@@ -25,14 +25,22 @@ public class CustomerDAOImpl implements CustomerDAO {
 		
 		Session currentSession = sessionFactory.getCurrentSession();
 		
-		///if(currentSession!=null)System.out.println("Sucesss!!!");
 		
-		Query<Customer> theQuery = currentSession.createQuery("from Customer", Customer.class);
+		Query<Customer> theQuery = currentSession.createQuery("from Customer order by lastName", Customer.class);
 		
 		
 		List<Customer> customers = theQuery.getResultList();
 		
 		return customers;
+	}
+
+	@Override
+	public void saveCustomer(Customer theCustomer) {
+		
+		Session currentSession = sessionFactory.getCurrentSession();
+		
+		currentSession.save(theCustomer);
+		
 	}
 
 }
